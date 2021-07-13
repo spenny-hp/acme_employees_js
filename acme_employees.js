@@ -9,11 +9,53 @@ const employees = [
     { id: 99, name: 'lucy', managerId: 1}
   ];
 
-  // functions
+// function declarations
+
+// given a name and array of employees, return employee
 function findEmployeeByName(employeeName, employees) {
-    return employees.filter((obj) => obj.name === employeeName )
+    return employees.filter((obj) => obj.name === employeeName)[0];
 }
-  // end functions
+
+// given an employee and a list of employees, return the employee who is the manager
+function findManagerFor(employee, employees) {
+  return employees.filter((obj) => obj.id === employee.managerId)[0];
+}
+
+// given an employee and a list of employees, return the employees who report to the same manager
+function findCoworkersFor(employee, employees) {
+  return employees.filter((obj) => obj.managerId === employee.managerId && obj.name !== employee.name);
+}
+
+// given an employee and a list of employees, return a the management chain for that employee. 
+// The management chain starts from the employee with no manager with the passed in employees manager
+const mgtChain = [];
+
+function findManagementChainForEmployee(employee, employees) {
+  // NOTE TO REVIEWER: it's really strange this is producing the opposite results of what I expect
+  if (!employee.hasOwnProperty('managerId')) {
+    // base case
+    return mgtChain;
+  } else {
+    // recursive case
+    const currEmployee = employee;
+    const nextEmployee = findManagerFor(currEmployee, employees);
+    mgtChain.unshift(nextEmployee);
+    findManagementChainForEmployee(nextEmployee, employees);
+  }
+}
+
+// given a list of employees, generate a tree like structure for the employees, starting with the employee who has no manager. 
+// Each employee will have a reports property which is an array of the employees who report directly to them.
+function generateManagementTree(employees) {
+  
+}
+
+// given a tree of employees, generate a display which displays the hierarchy
+function displayManagementTree(mgtTree) {
+
+}
+
+// end functions
   
   const spacer = (text)=> {
     if(!text){
